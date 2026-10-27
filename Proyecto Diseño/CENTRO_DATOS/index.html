@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Datos VR  Angie Pilco</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
+  <script>
+    AFRAME.registerComponent('rack', {
+      schema: {
+        unidades: { type: 'int', default: 8 },
+        estado: { type: 'string', default: 'ok' }
+      },
+      init: function () {
+        var el = this.el;
+        var n = this.data.unidades;
+        var ledColor = this.data.estado === 'ok' ? '#00ff55' : '#ff2222';
+
+        var cuerpo = document.createElement('a-box');
+        cuerpo.setAttribute('width', 0.6);
+        cuerpo.setAttribute('height', 2);
+        cuerpo.setAttribute('depth', 1);
+        cuerpo.setAttribute('position', '0 1 0');
+        cuerpo.setAttribute('color', '#1c1c24');
+        cuerpo.setAttribute('material', 'metalness: 0.6; roughness: 0.4');
+        el.appendChild(cuerpo);
+
+        var alto = 1.8 / n;
+        for (var i = 0; i < n; i++) {
+          var y = 0.1 + (i * alto) + (alto / 2);
+
+          var srv = document.createElement('a-box');
+          srv.setAttribute('width', 0.54);
+          srv.setAttribute('height', alto * 0.85);
+          srv.setAttribute('depth', 0.02);
+          srv.setAttribute('position', '0 ' + y + ' 0.505');
+          srv.setAttribute('color', '#3b3b4a');
+          el.appendChild(srv);
+
+          var led = document.createElement('a-sphere');
+          led.setAttribute('radius', 0.014);
+          led.setAttribute('position', '0.22 ' + y + ' 0.525');
+          led.setAttribute('color', ledColor);
+          led.setAttribute('material', 'shader: flat');
+          el.appendChild(led);
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <a-scene background="color: #0b0d12" renderer="colorManagement: true">
+    
+    
+    <a-assets>
+      <a-asset-item id="rack-glb" src="Models/rack.glb"></a-asset-item>
+      <a-asset-item id="servidores-glb" src="Models/servers.glb"></a-asset-item>
+      <a-asset-item id="escritorio-glb" src="Models/escritorio.glb"></a-asset-item>
+      <a-asset-item id="router-glb" src="Models/wifi_router.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- Piso -->
+    <a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="12" color="#4a4f5c"></a-plane>
+
+    <!-- ===== PISO TÉCNICO: CUADRÍCULA ===== -->
+    <a-box position="-3 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+    <a-box position="-2 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+    <a-box position="-1 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+    <a-box position="1 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+    <a-box position="2 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+    <a-box position="3 0.012 -4" width="0.012" height="0.012" depth="12" color="#9aabba"></a-box>
+
+    <a-box position="0 0.012 1" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 0" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -1" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -2" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -3" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -4" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -5" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -6" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -7" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -8" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+    <a-box position="0 0.012 -9" width="8" height="0.012" depth="0.012" color="#9aabba"></a-box>
+
+    <!-- Paredes -->
+    <a-box position="0 1.5 -10" width="8" height="3" depth="0.2" color="#2f3340"></a-box>
+    <a-box position="0 1.5 2" width="8" height="3" depth="0.2" color="#2f3340"></a-box>
+    <a-box position="-4 1.5 -4" width="0.2" height="3" depth="12" color="#2f3340"></a-box>
+    <a-box position="4 1.5 -4" width="0.2" height="3" depth="12" color="#2f3340"></a-box>
+
+    <!-- Techo -->
+    <a-plane position="0 3 -4" rotation="90 0 0" width="8" height="12" color="#2a2d36"></a-plane>
+
+    <!-- Iluminación -->
+    <a-entity light="type: ambient; color: #8899bb; intensity: 8.5"></a-entity>
+    <a-entity light="type: point; color: #ffffff; intensity: 0.8; distance: 8" position="0 2.8 -1"></a-entity>
+    <a-entity light="type: point; color: #ffffff; intensity: 0.8; distance: 8" position="0 2.8 -5"></a-entity>
+
+    <!-- Rótulo con tu nombre -->
+    <a-text value="CENTRO DE DATOS - ADLER VEGA" position="0 2.2 -9.85" align="center" width="6" color="#00e5ff"></a-text>
+
+    <!-- ===== PUERTA DE ACCESO ===== -->
+    <a-box position="0 1 1.88" width="1.2" height="2" depth="0.05" color="#8a5a2b"></a-box>
+    <a-sphere position="0.43 1 1.81" radius="0.055" color="#f5c542"></a-sphere>
+    <a-text value="ACCESO AL CENTRO DE DATOS" position="0 2.35 1.78" rotation="0 180 0" align="center" width="3" color="#ffffff"></a-text>
+
+    <!-- ===== UNIDAD DE CLIMATIZACIÓN CRAC ===== -->
+    <a-box position="-3.1 0.9 -9.2" width="1.2" height="1.8" depth="0.8" color="#9aa3b5"></a-box>
+    <a-box position="-3.1 1.35 -8.79" width="0.9" height="0.3" depth="0.02" color="#263849"></a-box>
+    <a-box position="-3.1 0.65 -8.79" width="0.95" height="0.6" depth="0.02" color="#526272"></a-box>
+    <a-text value="CRAC - CLIMATIZACION" position="-3.6 2.1 -8.8" color="#ffffff" width="2.3"></a-text>
+
+    <!-- ===== FILA IZQUIERDA DE RACKS ===== -->
+    <a-entity rack="unidades: 8; estado: ok" position="-1.6 0 -3" rotation="0 90 0"></a-entity>
+    
+    <!-- RACK 3D ROTADO 180 GRA-DOS PARA QUE SU FRENTE MIRE AL PASILLO CENTRAL -->
+    <a-gltf-model src="#rack-glb" position="-1.6 0 -5" rotation="0 180 0" scale="1 1 1"></a-gltf-model>
+    
+    <a-entity rack="unidades: 8; estado: ok" position="-1.6 0 -7" rotation="0 90 0"></a-entity>
+
+    <!-- ===== FILA DERECHA DE RACKS ===== -->
+    <a-entity rack="unidades: 8; estado: ok" position="1.6 0 -3" rotation="0 -90 0"></a-entity>
+    <a-entity rack="unidades: 8; estado: falla" position="1.6 0 -5" rotation="0 -90 0"></a-entity>
+    <a-entity rack="unidades: 8; estado: ok" position="1.6 0 -7" rotation="0 -90 0"></a-entity>
+
+    <!-- ===== MODELOS 3D AUXILIARES ===== -->
+    <a-gltf-model src="#servidores-glb" position="-3.4 0 -2.0" rotation="0 90 0" scale="1.0 1.0 1.0"></a-gltf-model>
+    <a-gltf-model src="#escritorio-glb" position="3.0 0 -1.5" rotation="0 -90 0" scale="0.9 0.9 0.9"></a-gltf-model>
+    <a-gltf-model src="#router-glb" position="3.0 1.0 -1.5" rotation="0 0 0" scale="0.8 0.8 0.8"></a-gltf-model>
+
+    <a-camera position="0 1.6 0.5"></a-camera>
+  </a-scene>
+</body>
+</html>
